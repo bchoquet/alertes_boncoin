@@ -29,12 +29,13 @@ class AlertesBoncoin{
 	public function run(){
 		$this->loadAds();
 		$page = $this->scrapePage($this->listURL);
-		$ads = $this->scrapeListPage($page);
-		
-		foreach ($ads as $ad){
-			if(!in_array($ad, $this->ads)){
-				$this->ads[] = $ad;
-				$this->new[] = $this->getAdDetails($ad);
+		if($page){
+			$ads = $this->scrapeListPage($page);
+			foreach ($ads as $ad){
+				if(!in_array($ad, $this->ads)){
+					$this->ads[] = $ad;
+					$this->new[] = $this->getAdDetails($ad);
+				}
 			}
 		}
 		
@@ -78,7 +79,25 @@ class AlertesBoncoin{
 	 * @return string code HTML de la page
 	 */
 	private function scrapePage($page){
-		return file_get_contents($page);
+		// Création d'une nouvelle ressource cURL
+		$ch = curl_init();
+		
+		// Configuration de l'URL et d'autres options
+		curl_setopt($ch, CURLOPT_URL, $this->listURL);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		
+		// Récupération de l'URL et affichage sur le naviguateur
+		$data = curl_exec($ch);
+		
+		if(!$data){
+			print curl_error($ch);
+		}
+		
+		// Fermeture de la session cURL
+		curl_close($ch);
+		
+		return $data;
 	}
 	
 	/**
