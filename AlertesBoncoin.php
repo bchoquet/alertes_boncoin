@@ -38,9 +38,11 @@ class AlertesBoncoin{
 			}
 		}
 		
+		//print count($this->new).chr(10);
+		
 		if( count($this->new)){
 			$this->sendMail();
-			//$this->saveAds();
+			$this->saveAds();
 		}
 	}
 	
