@@ -86,6 +86,8 @@ class AlertesBoncoin{
 		// Configuration de l'URL et d'autres options
 		curl_setopt($ch, CURLOPT_URL, $this->listURL);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 		// Récupération de l'URL et affichage sur le naviguateur
