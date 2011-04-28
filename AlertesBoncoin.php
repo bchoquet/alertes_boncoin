@@ -84,7 +84,7 @@ class AlertesBoncoin{
 		$ch = curl_init();
 
 		// Configuration de l'URL et d'autres options
-		curl_setopt($ch, CURLOPT_URL, $this->listURL);
+		curl_setopt($ch, CURLOPT_URL, $page);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
