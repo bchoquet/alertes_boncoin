@@ -15,12 +15,15 @@ class AlertesBoncoin{
 
 	private $new = array();
 
+	private $cc;
 
-	public function __construct($listURL, $dest, $title, $memDir='mem'){
+
+	public function __construct($listURL, $dest, $title, $memDir='mem', $cc=''){
 		$this->dest = $dest;
 		$this->listURL = $listURL;
 		$this->title =  $title;
 		$this->memDir = $memDir;
+		$this->cc = $cc;
 		if(!file_exists($this->memDir)){
 			mkdir($this->memDir);
 		}
@@ -163,6 +166,11 @@ class AlertesBoncoin{
 			'Reply-To: '.$this->dest,
 			'Content-Type: text/plain; charset=utf-8',
 		);
+
+		if( $this->cc )
+		{
+			$headers[] = 'Cc: '.$this->cc;
+		}
 
 		$subject = $this->title.' : '.count($this->new).' nouvelle(s) annonce(s)';
 
