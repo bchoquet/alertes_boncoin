@@ -39,7 +39,7 @@ class AlertesBoncoin{
 			}
 		}
 
-		//print count($this->new).chr(10);
+		print count($this->new).chr(10);
 
 		if( count($this->new)){
 			$this->sendMail();
@@ -113,7 +113,7 @@ class AlertesBoncoin{
 
 		$dom = new simple_html_dom();
 		$dom->load($html);
-		foreach($dom->find('#hl td[nowrap] a') as $data)
+		foreach($dom->find('.list-ads a') as $data)
 		{
 		    $url = $data->getAttribute('href');
 		    $ads[] = $url;
@@ -133,21 +133,21 @@ class AlertesBoncoin{
 		$domPage = new simple_html_dom();
 	    $domPage->load($html);
 
-	    $annonce->titre = html_entity_decode($domPage->find('h1', 0)->plaintext);
+	    $annonce->titre = trim(html_entity_decode($domPage->find('.header_adview h2', 0)->plaintext));
 
-	    $descr = $domPage->find('table.AdviewContent span.lbcAd_text', 0);
-	    if($descr) $annonce->description = html_entity_decode($descr->plaintext);
+	    $descr = $domPage->find('.AdviewContent .content', 0);
+	    if($descr) $annonce->description = trim(html_entity_decode($descr->plaintext));
 
-	    foreach($domPage->find('.lbcAdParams .ad_details') as $detail){
+	    foreach($domPage->find('.lbcParams tr') as $detail){
 
-	    	if(	$label = $detail->find('label', 0)){
+	    	if(	$label = $detail->find('th', 0)){
 	    		$name = $label->plaintext;
 	    	}
-	    	if($strong = $detail->find('strong', 0)){
+	    	if($strong = $detail->find('td', 0)){
 	        	$val = $strong->plaintext;
 	    	}
 	    	if( $name && $val ){
-	        	$annonce->addProperty(html_entity_decode($name),  html_entity_decode($val));
+	        	$annonce->addProperty(trim(html_entity_decode($name)),  trim(html_entity_decode($val)));
 	    	}
 	    }
 	    //print $annonce;
